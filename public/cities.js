@@ -49,7 +49,10 @@ var handleCitySelected = function(){
   makeRequest(url, requestComplete);
   // console.log(getWeatherData());
   // console.log(formTemperatureArray());
-  new LineChart(["jan", "feb", "mar"], formTemperatureArray());
+  // console.log(moment("2018-02-02 18:00:00").format('dddd'));
+  // console.log(moment("2018-02-03 18:00:00").format('dddd'));
+  // console.log(formDatesArray());
+  new LineChart(formDatesArray(), formTemperatureArray());
 
 }
 
@@ -57,7 +60,16 @@ var formTemperatureArray = function(){
   let weatherData = getWeatherData();
   let kelvinArray = weatherData.list.map(weather => weather.main.temp);
   return kelvinArray.map(kelvinString => Number((Number(kelvinString)-273.15).toFixed(2)));
+}
 
+var formDatesArray = function(){
+  let weatherData = getWeatherData();
+  let dateArray = weatherData.list.map(weather => moment(weather.dt_txt).format('dddd HH:mm'));
+  // let dateArray = weatherData.list.map(weather => weather.dt_txt);
+
+  return dateArray.map(function(string){if(string.indexOf("00:00") != -1){return string}
+  else{return string.slice(-5) }});
+  // return dateArray;
 }
 
 
