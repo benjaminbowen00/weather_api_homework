@@ -12,6 +12,12 @@ var LineChart = function(dates, name1, temperatureData, name2, secondTemperature
       text: 'Weather chart'
     },
 
+    yAxis: {
+        title: {
+            text: 'Temperature (Celcius)'
+        }
+    },
+
     xAxis: {
       categories: dates
     },

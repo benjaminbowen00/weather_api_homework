@@ -5,9 +5,19 @@ var waitAndAddMarker = function(map){
     let lng = weatherData.city.coord.lon;
     let coords = {lat: lat, lng: lng};
     map.addMarker(coords);
-            console.log('this is:', this);
+            // console.log('this is:', this);
           }, 2000);
+}
 
+var waitAndAddSecondMarker = function(map){
+  setTimeout(function() {
+    let weatherData = getSecondWeatherData();
+    console.log(weatherData[0]);
+    let lat = weatherData.city.coord.lat;
+    let lng = weatherData.city.coord.lon;
+    let coords = {lat: lat, lng: lng};
+    map.addSecondMarker(coords);
+          }, 2000);
 }
 
 var app = function(){
@@ -26,6 +36,7 @@ var app = function(){
   select.addEventListener('change', handleCitySelected);
   selectSecond.addEventListener('change', handleSecondCitySelected)
   select.addEventListener('change', function(){waitAndAddMarker(mainMap);})
+  selectSecond.addEventListener('change', function(){waitAndAddSecondMarker(mainMap);})
 
   console.log(mainMap.markers);
 
