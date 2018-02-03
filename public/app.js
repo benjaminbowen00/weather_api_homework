@@ -13,6 +13,7 @@ var waitAndAddMarker = function(map){
 var app = function(){
 
   formCitiesDropDown();
+  formSecondCitiesDropDown();
 
   var container = document.getElementById('main-map');
   var center = {lat: 55, lng: -2};
@@ -21,7 +22,9 @@ var app = function(){
 
 
   var select = document.querySelector('#select-city');
-  select.addEventListener('change', handleCitySelected)
+  var selectSecond = document.querySelector('#select-second-city');
+  select.addEventListener('change', handleCitySelected);
+  selectSecond.addEventListener('change', handleSecondCitySelected)
   select.addEventListener('change', function(){waitAndAddMarker(mainMap);})
 
   console.log(mainMap.markers);

@@ -1,4 +1,4 @@
-var LineChart = function(dates, temperatureData) {
+var LineChart = function(dates, name1, temperatureData, name2, secondTemperatureData) {
 
   var container = document.querySelector("#line-chart");
 
@@ -17,8 +17,11 @@ var LineChart = function(dates, temperatureData) {
     },
 
     series: [{
-      name: "temperature",
+      name: name1,
       data: temperatureData
+    }, {
+      name: name2,
+      data: secondTemperatureData
     }]
 
   });

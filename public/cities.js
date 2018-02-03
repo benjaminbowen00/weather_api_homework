@@ -18,10 +18,23 @@ var formCitiesDropDown = function(){
   })
 }
 
+var formSecondCitiesDropDown = function(){
+
+  var select = document.querySelector('#select-second-city');
+  select.appendChild(createTopOption());
+  citiesArray.forEach(function(city){
+    var option = document.createElement('option');
+    option.innerText = city.name;
+    option.value = city.id;
+    select.appendChild(option);
+  })
+}
+
 var makeRequest = function(url, callback){
   var request = new XMLHttpRequest();
   request.open('GET', url);
   request.addEventListener('load', callback);
+  // console.log("this in makecomplete: ", this);
   request.send();
 }
 
@@ -32,11 +45,35 @@ var requestComplete = function(){
   // var temperatureData = JSON.parse(jsonString);
   // var jsonStringTemperature = JSON.stringify(temperatureData);
   localStorage.setItem('Weather data', jsonString);
-  return JSON.parse(jsonString);
+  let data = JSON.parse(jsonString);
+  // console.log("this in requestcomplete: ", this);
+  // return data;
+  new LineChart(formDatesArray(data), getCityName(data),formTemperatureArray(data));
+}
+
+var requestSecondComplete = function(){
+
+  if (this.status !== 200) {return;}
+  var jsonString = this.responseText;
+  // var temperatureData = JSON.parse(jsonString);
+  // var jsonStringTemperature = JSON.stringify(temperatureData);
+  localStorage.setItem('Second weather data', jsonString);
+  let data =  JSON.parse(jsonString);
+
+  let oldData = getWeatherData();
+  new LineChart(formDatesArray(oldData), getCityName(oldData), formTemperatureArray(oldData), getCityName(data), formSecondTemperatureArray(data));
+
+
+
+
 }
 
 var getWeatherData = function(){
   var jsonString = localStorage.getItem('Weather data');
+  return JSON.parse(jsonString);
+}
+var getSecondWeatherData = function(){
+  var jsonString = localStorage.getItem('Second weather data');
   return JSON.parse(jsonString);
 }
 
@@ -48,8 +85,15 @@ var formURL = function(id){
 var handleCitySelected = function(){
   let url = formURL(this.value)
   let weatherData = makeRequest(url, requestComplete);
-  new LineChart(formDatesArray(), formTemperatureArray());
+  console.log(weatherData);
+  // new LineChart(formDatesArray(), formTemperatureArray());
 
+}
+
+var handleSecondCitySelected = function(){
+  let url = formURL(this.value);
+  let weatherData = makeRequest(url, requestSecondComplete);
+  // new LineChart(formDatesArray(), formTemperatureArray(), formSecondTemperatureArray());
 }
 
 var coordFromID = function(id){
@@ -58,15 +102,25 @@ var coordFromID = function(id){
   }
 }
 
+var getCityName = function(weatherData){
+  return weatherData.city.name;
+}
 
-var formTemperatureArray = function(){
-  let weatherData = getWeatherData();
+
+var formTemperatureArray = function(weatherData){
+  // let weatherData = getWeatherData();
   let kelvinArray = weatherData.list.map(weather => weather.main.temp);
   return kelvinArray.map(kelvinString => Number((Number(kelvinString)-273.15).toFixed(2)));
 }
 
-var formDatesArray = function(){
-  let weatherData = getWeatherData();
+var formSecondTemperatureArray = function(weatherData){
+  // let weatherData = getSecondWeatherData();
+  let kelvinArray = weatherData.list.map(weather => weather.main.temp);
+  return kelvinArray.map(kelvinString => Number((Number(kelvinString)-273.15).toFixed(2)));
+}
+
+var formDatesArray = function(weatherData){
+  // let weatherData = getWeatherData();
   let dateArray = weatherData.list.map(weather => moment(weather.dt_txt).format('dddd HH:mm'));
 
   return dateArray.map(function(string){if(string.indexOf("00:00") != -1){return string}
