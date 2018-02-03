@@ -32,6 +32,7 @@ var requestComplete = function(){
   // var temperatureData = JSON.parse(jsonString);
   // var jsonStringTemperature = JSON.stringify(temperatureData);
   localStorage.setItem('Weather data', jsonString);
+  return JSON.parse(jsonString);
 }
 
 var getWeatherData = function(){
@@ -46,15 +47,17 @@ var formURL = function(id){
 
 var handleCitySelected = function(){
   let url = formURL(this.value)
-  makeRequest(url, requestComplete);
-  // console.log(getWeatherData());
-  // console.log(formTemperatureArray());
-  // console.log(moment("2018-02-02 18:00:00").format('dddd'));
-  // console.log(moment("2018-02-03 18:00:00").format('dddd'));
-  // console.log(formDatesArray());
+  let weatherData = makeRequest(url, requestComplete);
   new LineChart(formDatesArray(), formTemperatureArray());
 
 }
+
+var coordFromID = function(id){
+  for(city of citiesArray){
+    if(city.id = id){return city.coord;}
+  }
+}
+
 
 var formTemperatureArray = function(){
   let weatherData = getWeatherData();
@@ -65,11 +68,9 @@ var formTemperatureArray = function(){
 var formDatesArray = function(){
   let weatherData = getWeatherData();
   let dateArray = weatherData.list.map(weather => moment(weather.dt_txt).format('dddd HH:mm'));
-  // let dateArray = weatherData.list.map(weather => weather.dt_txt);
 
   return dateArray.map(function(string){if(string.indexOf("00:00") != -1){return string}
   else{return string.slice(-5) }});
-  // return dateArray;
 }
 
 
