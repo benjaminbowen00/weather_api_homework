@@ -4,10 +4,17 @@ var waitAndAddMarker = function(map){
     let lat = weatherData.city.coord.lat;
     let lng = weatherData.city.coord.lon;
     let coords = {lat: lat, lng: lng};
-    map.addMarker(coords);
-            // console.log('this is:', this);
-          }, 2000);
-}
+    let city = weatherData.city.name;
+    let marker = map.addMarker(coords);
+
+    var infowindow = new google.maps.InfoWindow({
+      content: city});
+
+      infowindow.open(map, marker);
+
+      // console.log('this is:', this);
+    }, 1000);
+  }
 
 var waitAndAddSecondMarker = function(map){
   setTimeout(function() {
@@ -16,8 +23,15 @@ var waitAndAddSecondMarker = function(map){
     let lat = weatherData.city.coord.lat;
     let lng = weatherData.city.coord.lon;
     let coords = {lat: lat, lng: lng};
-    map.addSecondMarker(coords);
-          }, 2000);
+    let city = weatherData.city.name;
+    let marker = map.addSecondMarker(coords);
+
+    let infowindow = new google.maps.InfoWindow({
+      content: city});
+
+    infowindow.open(map, marker);
+
+  }, 1000);
 }
 
 var app = function(){

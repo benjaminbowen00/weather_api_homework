@@ -49,6 +49,7 @@ var requestComplete = function(){
   // console.log("this in requestcomplete: ", this);
   // return data;
   new LineChart(formDatesArray(data), getCityName(data),formTemperatureArray(data));
+  formCityWeather(data);
 }
 
 var requestSecondComplete = function(){
@@ -63,6 +64,10 @@ var requestSecondComplete = function(){
   let oldData = getWeatherData();
   new LineChart(formDatesArray(oldData), getCityName(oldData), formTemperatureArray(oldData), getCityName(data), formSecondTemperatureArray(data));
 
+  formSecondCityWeather(data);
+
+
+  console.log(formWeatherDataDiv(data));
 
 
 
@@ -125,6 +130,53 @@ var formDatesArray = function(weatherData){
 
   return dateArray.map(function(string){if(string.indexOf("00:00") != -1){return string}
   else{return string.slice(-5) }});
+}
+
+var formWeatherDataDiv = function(weatherData){
+  let currentWeatherDiv = document.createElement('div');
+  let pTag1 = document.createElement('p');
+  let pTag2 = document.createElement('p');
+  let pTag3 = document.createElement('p');
+  let pTag4 = document.createElement('p');
+  pTag1.innerText = "Current Weather at " + weatherData.city.name;
+  pTag2.innerText = "Weather conditions: "+ weatherData.list[0].weather[0].description;
+  pTag3.innerText = "Temperature: " + Number((Number(weatherData.list[0].main.temp)-273.15).toFixed(2)) +'\xB0'+'C';
+  pTag4.innerText = "Wind: " + weatherData.list[0].wind.speed + "m/s from "+getWindDirection(weatherData.list[0].wind.deg);
+  currentWeatherDiv.appendChild(pTag1);
+  currentWeatherDiv.appendChild(pTag2);
+  currentWeatherDiv.appendChild(pTag3);
+  currentWeatherDiv.appendChild(pTag4);
+  return currentWeatherDiv;
+}
+var formCityWeather = function(weatherData){
+  let div = document.querySelector('#city-weather');
+  div.innerText = "";
+  let weatherInfo = formWeatherDataDiv(weatherData);
+  div.appendChild(weatherInfo);
+}
+
+var formSecondCityWeather = function(weatherData){
+  let div = document.querySelector('#city-weather');
+  div.innerText = "";
+  let firstCityInfo = getWeatherData()
+  let weatherFirstInfo = formWeatherDataDiv(firstCityInfo);
+  let weatherInfo = formWeatherDataDiv(weatherData);
+  div.appendChild(weatherFirstInfo);
+  div.appendChild(weatherInfo);
+}
+
+var getWindDirection = function(bearing){
+  let bearingNumber = Number(bearing);
+  if(bearing<22.5){return "N"}
+  if (bearing<67.5){return "NE"}
+  if (bearing<112.5){return "E"}
+  if (bearing<157.5){return "SE"}
+  if (bearing<202.5){return "S"}
+  if (bearing<247.5){return "SW"}
+  if (bearing<292.5){return "W"}
+  if (bearing<337.5){return "NW"}
+  if (bearing>337.5){return "N"}
+
 }
 
 

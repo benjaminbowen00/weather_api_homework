@@ -19,8 +19,22 @@ Map.prototype.addMarker = function(coords) {
 
   this.markers.push(marker);
   // setMapOnAll(this.googleMap);
+  return marker;
 
 }
+
+// Map.prototype.addInfoWindow(marker, message) {
+//
+//   var infoWindow = new google.maps.InfoWindow({
+//     content: message
+//   });
+//
+//   marker.infoWindow = infoWindow;
+//
+//   google.maps.event.addListener(marker, 'click', function () {
+//     infoWindow.open(this.googleMap, marker);
+//   });
+// }
 
 Map.prototype.clearOverlays = function() {
   this.clearSecondOverlays();
@@ -39,6 +53,7 @@ Map.prototype.addSecondMarker = function(coords) {
   });
 
   this.secondMarker.push(marker);
+  return marker;
   // setMapOnAll(this.googleMap);
 
 }
