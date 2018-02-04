@@ -15,7 +15,6 @@ var LineChart = function(dates, name1, temperatureData, name2, secondTemperature
     yAxis: {
         title: {
             text: 'Temperature (\xB0C)'
-            
         }
 
 
