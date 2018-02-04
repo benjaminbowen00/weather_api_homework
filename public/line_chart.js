@@ -9,17 +9,26 @@ var LineChart = function(dates, name1, temperatureData, name2, secondTemperature
     },
 
     title: {
-      text: 'Weather chart'
+      text: 'Temperature forecast for the next 5 days'
     },
 
     yAxis: {
         title: {
-            text: 'Temperature (Celcius)'
+            text: 'Temperature (\xB0C)'
+            
         }
+
+
+
+
+
+
+
     },
 
     xAxis: {
-      categories: dates
+      categories: dates,
+
     },
 
     series: [{

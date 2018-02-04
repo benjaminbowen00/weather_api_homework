@@ -135,6 +135,7 @@ var formDatesArray = function(weatherData){
 var formWeatherDataDiv = function(weatherData){
   let currentWeatherDiv = document.createElement('div');
   let pTag1 = document.createElement('p');
+  pTag1.className = "city-weather-title";
   let pTag2 = document.createElement('p');
   let pTag3 = document.createElement('p');
   let pTag4 = document.createElement('p');
@@ -152,6 +153,7 @@ var formCityWeather = function(weatherData){
   let div = document.querySelector('#city-weather');
   div.innerText = "";
   let weatherInfo = formWeatherDataDiv(weatherData);
+  weatherInfo.className = "city-info";
   div.appendChild(weatherInfo);
 }
 
@@ -161,6 +163,8 @@ var formSecondCityWeather = function(weatherData){
   let firstCityInfo = getWeatherData()
   let weatherFirstInfo = formWeatherDataDiv(firstCityInfo);
   let weatherInfo = formWeatherDataDiv(weatherData);
+  weatherInfo.className = "city-info";
+  weatherFirstInfo.className = "city-info";
   div.appendChild(weatherFirstInfo);
   div.appendChild(weatherInfo);
 }
