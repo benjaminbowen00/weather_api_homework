@@ -91,6 +91,9 @@ var handleCitySelected = function(){
   let url = formURL(this.value)
   let weatherData = makeRequest(url, requestComplete);
   console.log(weatherData);
+  let secondSelect = document.querySelector('#select-second-city');
+  secondSelect.selectedIndex = 0;
+
   // new LineChart(formDatesArray(), formTemperatureArray());
 
 }
@@ -139,7 +142,7 @@ var formWeatherDataDiv = function(weatherData){
   let pTag2 = document.createElement('p');
   let pTag3 = document.createElement('p');
   let pTag4 = document.createElement('p');
-  pTag1.innerText = "Current Weather in " + weatherData.city.name;
+  pTag1.innerText = "Weather in " + weatherData.city.name;
   pTag2.innerText = "Weather conditions: "+ weatherData.list[0].weather[0].description;
   pTag3.innerText = "Temperature: " + Number((Number(weatherData.list[0].main.temp)-273.15).toFixed(2)) +'\xB0'+'C';
   pTag4.innerText = "Wind: " + weatherData.list[0].wind.speed + "m/s from "+getWindDirection(weatherData.list[0].wind.deg);
